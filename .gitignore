@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# 文档（不要上传）
+*.pages
+*.doc
+*.docx
+*.pdf

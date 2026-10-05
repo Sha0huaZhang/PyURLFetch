@@ -12,17 +12,17 @@ Not published on PyPI yet. Install name is `PyURLFetch`, import name is
 
 ```bash
 # core (requests + urllib3)
-pip install "git+https://github.com/Sha0huaZhang/PyFetch.git"
+pip install "git+https://github.com/Sha0huaZhang/PyURLFetch.git"
 
 # with the rich progress bar
-pip install "pyurlfetch[progress] @ git+https://github.com/Sha0huaZhang/PyFetch.git"
+pip install "pyurlfetch[progress] @ git+https://github.com/Sha0huaZhang/PyURLFetch.git"
 ```
 
 Or from a local clone:
 
 ```bash
-git clone https://github.com/Sha0huaZhang/PyFetch.git
-cd PyFetch
+git clone https://github.com/Sha0huaZhang/PyURLFetch.git
+cd PyURLFetch
 pip install .
 ```
 

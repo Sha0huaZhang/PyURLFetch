@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ version = "0.1.0"
 description = "A Python library for implementing convenient resumable download functionality."
 readme = "README.md"
 requires-python = ">=3.8"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "Sha0huaZhang" }]
 keywords = ["download", "resumable", "http", "requests"]
 classifiers = [
@@ -27,6 +28,8 @@ progress = ["rich>=12.0"]
 
 [project.urls]
 Homepage = "https://github.com/Sha0huaZhang/PyURLFetch"
+Repository = "https://github.com/Sha0huaZhang/PyURLFetch"
+Issues = "https://github.com/Sha0huaZhang/PyURLFetch/issues"
 
 [tool.setuptools.packages.find]
 include = ["pyurlfetch*"]

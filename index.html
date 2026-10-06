@@ -1,32 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PyURLFetch</title>
-<style>
-  :root { color-scheme: light dark; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  }
-  main { max-width: 40rem; padding: 2rem; text-align: center; }
-  h1 { margin: 0 0 0.5rem; }
-  p { margin: 0.25rem 0; line-height: 1.5; }
-  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyURLFetch</title>
+    <style>
+        body {
+            background-color: #0a1b3f;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .logo-wrapper {
+            background-color: #ffffff;
+            border-radius: 30px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            display: block;
+            border-radius: 0;
+        }
+
+        /* ========== 版本号一行，有空格 ========== */
+        .version-block .v-line {
+            display: inline;
+        }
+        .version-block .v-line:first-child::after {
+            content: "\00a0\00a0\00a0\00a0\00a0\00a0";
+            white-space: pre;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 800px;
+            text-align: left;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .btn-github {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #0a1b3f;
+            padding: 14px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-github:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255,255,255,0.2);
+        }
+
+        .code-container {
+            position: relative;
+            margin-bottom: 20px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        pre {
+            background-color: #1e2a4a;
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            color: #d4d4d4;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            border: 1px solid #3a4a6a;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            text-align: left;
+            margin: 0;
+            padding-right: 20px;
+        }
+
+        /* 有复制按钮的pre，添加右侧padding */
+        .code-container.has-copy-btn pre {
+            padding-right: 70px;
+        }
+
+        .code-dollar {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .copy-icon {
+            position: relative;
+            width: 18px;
+            height: 18px;
+        }
+
+        .square-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #a0b0d0;
+            border-radius: 2px;
+            opacity: 0.7;
+            transition: all 0.2s ease;
+        }
+
+        .square-front {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #a0b0d0;
+            border-radius: 2px;
+            background-color: rgba(30, 42, 74, 0.4);
+            transition: all 0.2s ease;
+            transform: translate(-4.5px, -4.5px);
+        }
+
+        .copy-btn:hover .square-back,
+        .copy-btn:hover .square-front {
+            border-color: #ffffff;
+        }
+
+        .copy-btn.copied .square-back,
+        .copy-btn.copied .square-front {
+            background-color: #ffffff;
+            border-color: transparent;
+            opacity: 1;
+        }
+
+        .contact-section {
+            margin-top: 40px;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+
+        .contact-divider {
+            width: 60px;
+            height: 2px;
+            background-color: #4a90e2;
+            margin: 0 auto 20px auto;
+        }
+
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .contact-label {
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .contact-item a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .contact-hint {
+            font-size: 0.85rem;
+            color: #ffffff;
+            opacity: 0.7;
+            margin-top: 6px;
+        }
+
+        .disclaimer-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 20px;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: #ffffff;
+            opacity: 0.7;
+            line-height: 1.4;
+            word-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .disclaimer p {
+            margin-bottom: 4px;
+            padding-left: 2em;
+            text-indent: -2em;
+        }
+
+        /* 修改所有正文段落和标题的换行 */
+        .content-section h2 {
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .content-section p {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        /* 特别处理无复制按钮的pre */
+        .code-container:not(.has-copy-btn) pre {
+            padding-right: 20px;
+            word-break: break-all;
+            overflow-wrap: anywhere;
+        }
+
+        /* ===== Demo 图片居中且与代码块等宽 ===== */
+        .demo-pictures {
+            margin-top: 10px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .demo-pictures p {
+            width: 100%;
+            margin: 16px 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .demo-pictures img {
+            display: block;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto;
+            margin: 0 auto !important;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            border: 1px solid #2a3a5a;
+            box-sizing: border-box;
+            object-fit: contain;
+        }
+
+        /* ===== 环境要求粗体样式 ===== */
+        .env-requirements {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 800px;
+            text-align: left;
+            color: #ffffff;
+            font-weight: bold;
+            margin: 10px 0 20px 0;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
-  <main>
-    <h1>PyURLFetch</h1>
-    <p>A Python library for implementing convenient resumable download functionality.</p>
-    <p><code>pip3 install PyURLFetch</code></p>
-    <p>Placeholder page &mdash; documentation and demos are coming soon.</p>
-    <p><a href="https://github.com/Sha0huaZhang/PyURLFetch">View on GitHub</a></p>
-  </main>
+
+    <div class="logo-wrapper">
+        <img src="images/logo1.svg" alt="PyURLFetch Icon" class="logo-img logo-1">
+        <img src="images/logo2.svg" alt="PyURLFetch Text" class="logo-img logo-2">
+    </div>
+
+    <p class="tagline" style="max-width:800px;">A Python library for implementing convenient resumable download functionality.</p>
+
+    <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;">
+        <span class="v-line">Latest Version : 0.1.0</span>
+        <span class="v-line">Release on 2026-10-06</span>
+    </div>
+
+    <a href="https://github.com/Sha0huaZhang/PyURLFetch" class="btn-github">View On GitHub</a>
+
+    <div style="margin-top: 2em;"></div>
+    <div style="text-align: center; font-size: 1.2rem; font-weight: bold;">
+        <a href="https://sw.macwave.org" style="color: #ffffff; text-decoration: none;">Explore MacWave Team</a>
+    </div>
+    <div style="margin-top: 0.5em;"></div>
+    <div style="color: #a0b0d0; font-size: 0.95rem; text-align: center;">(Click to view)</div>
+    <div style="margin-top: 1em;"></div>
+
+    <div class="content-section" style="margin: 0 auto; padding: 20px; color: #ffffff; text-align: left;">
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;">What is PyURLFetch?</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            <strong>PyURLFetch</strong> is a <strong>Python library</strong> for <strong>resumable downloads</strong>. It was extracted from MacWave's package download flow, so it handles the parts that are easy to get wrong: partial files, HTTP Range requests, rate limiting, proxies, and retry policy.
+        </p>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Why PyURLFetch</h2>
+        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.2em;">
+            <li><strong>True resumable downloads.</strong> Interrupted? Call the same function again with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">resume=True</code> and it continues from the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.partial</code> file using an HTTP Range request.</li>
+            <li><strong>Optional rate limiting.</strong> Cap the speed with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">limit_rate="1M"</code>, which also accepts <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">200K</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">5M</code>, or a plain byte count.</li>
+            <li><strong>Proxy and SSL controls.</strong> Route through an <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">http://</code> or <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">socks5://</code> proxy, and opt out of certificate verification when you really need to.</li>
+            <li><strong>Progress bar, if you want one.</strong> A <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">rich</code>-based progress bar when <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">rich</code> is installed, or drive your own UI through the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">on_progress</code> callback.</li>
+            <li><strong>Library-friendly by design.</strong> It never prints, never calls <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">sys.exit</code>, and never prompts for input. Progress, retries, and errors all go through callbacks and exceptions.</li>
+            <li><strong>Small and dependency-light.</strong> Pure Python, requires only <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">requests</code> and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">urllib3</code>.</li>
+        </ul>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Requirements</h2>
+        <p class="env-requirements">
+            Python 3.8 and above. The optional progress bar needs rich 12.0 or above.
+        </p>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Install PyURLFetch</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            In the terminal, run:
+        </p>
+        <div class="code-container has-copy-btn">
+            <button class="copy-btn" onclick="copyCode(this)">
+                <div class="copy-icon">
+                    <div class="square-back"></div>
+                    <div class="square-front"></div>
+                </div>
+            </button>
+            <pre><span class="code-dollar">$</span> pip3 install PyURLFetch</pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            To install with the progress bar, run:
+        </p>
+        <div class="code-container has-copy-btn">
+            <button class="copy-btn" onclick="copyCode(this)">
+                <div class="copy-icon">
+                    <div class="square-back"></div>
+                    <div class="square-front"></div>
+                </div>
+            </button>
+            <pre><span class="code-dollar">$</span> pip3 install "PyURLFetch[progress]"</pre>
+        </div>
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;">
+            The distribution name is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PyURLFetch</code>, but the module you import is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">pyurlfetch</code>.
+        </p>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Quick Start</h2>
+        <div class="code-container has-copy-btn">
+            <button class="copy-btn" onclick="copyCode(this)">
+                <div class="copy-icon">
+                    <div class="square-back"></div>
+                    <div class="square-front"></div>
+                </div>
+            </button>
+            <pre>from pyurlfetch import download_file
+
+path = download_file(
+    "https://example.com/archive.tar.gz",
+    "archive.tar.gz",
+    resume=True,
+    limit_rate="1M",
+)
+
+print(path)</pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            The download is written to <strong>archive.tar.gz.partial</strong> and renamed to the target once complete, so an interrupted download can be resumed by calling the same function again with <strong>resume=True</strong>.
+        </p>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Handling Errors</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            Failures raise an exception instead of exiting the process:
+        </p>
+        <div class="code-container">
+            <pre>from pyurlfetch import download_file, HTTPStatusError, NetworkError, UserAborted
+
+try:
+    download_file(url, dest, resume=True)
+except HTTPStatusError as error:
+    print(error.status_code, error.url)
+except (NetworkError, UserAborted) as error:
+    print("download failed:", error)</pre>
+        </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Retrying</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            Downloads never prompt interactively. Control retries either with <strong>max_retries</strong> or with an <strong>on_retry(attempt, error)</strong> callback that returns a boolean:
+        </p>
+        <div class="code-container">
+            <pre>download_file(url, dest, max_retries=3)
+
+download_file(url, dest, on_retry=lambda attempt, error: input("retry? [y/N] ") == "y")</pre>
+        </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">API Reference</h2>
+        <div class="code-container">
+            <pre>download_file(
+    url,
+    dest,
+    *,
+    resume=False,        # continue from dest.partial using an HTTP Range request
+    limit_rate=None,     # bytes/s, or "200K" / "1M" / "5M"
+    proxy=None,          # http://... or socks5://...
+    verify=True,         # set False to skip SSL certificate verification
+    timeout=30.0,        # seconds without a response
+    chunk_size=8192,
+    max_retries=None,    # extra attempts; None means do not retry
+    on_retry=None,       # callback(attempt, error) -&gt; bool
+    progress=None,       # None = auto (rich if installed), False = off
+    display_name=None,   # label shown on the progress bar
+    on_progress=None,    # callback(downloaded, total)
+)</pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            Returns the final <strong>pathlib.Path</strong>. Rate limiting is also available on its own:
+        </p>
+        <div class="code-container">
+            <pre>from pyurlfetch import parse_rate_limit, TokenBucket
+
+parse_rate_limit("1M")   # 1048576.0
+parse_rate_limit("junk") # None
+
+bucket = TokenBucket(1024 * 1024)  # 1 MiB/s
+bucket.consume(8192)               # blocks until 8192 bytes are allowed</pre>
+        </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Exceptions</h2>
+        <div class="code-container">
+            <pre>PyURLFetchError
+└── DownloadError
+    ├── HTTPStatusError   # non-200/206 response; .status_code, .url
+    ├── NetworkError      # connection failed or timed out
+    └── UserAborted       # on_retry returned False</pre>
+        </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Demo Pictures</h2>
+        <div class="demo-pictures">
+            <p>
+                <img src="images/demo1.svg" alt="demo1">
+            </p>
+        </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">License</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+            This project is licensed under the <strong>MIT License</strong>.
+        </p>
+
+    </div>
+
+    <div class="contact-section">
+        <h2>Contact Us</h2>
+        <div class="contact-divider"></div>
+        <div class="contact-items">
+            <div class="contact-item">
+                <span class="contact-label">GitHub</span>
+                <a href="https://github.com/Sha0huaZhang" target="_blank">@Sha0huaZhang</a>
+            </div>
+            <div class="contact-item">
+                <span class="contact-label">Twitter</span>
+                <a href="https://twitter.com/MacWaveOrg" target="_blank">@MacWaveOrg</a>
+            </div>
+            <div class="contact-item">
+                <span class="contact-label">Email</span>
+                <a href="mailto:hi@macwave.org">hi@macwave.org</a>
+            </div>
+        </div>
+        <div class="contact-hint">Click the links to open.</div>
+    </div>
+
+    <div class="disclaimer-container">
+        <div class="disclaimer">
+            <p>1. PyURLFetch is provided "as is", without warranty of any kind. Users should read the documentation before use and bear the consequences themselves.</p>
+            <p>2. Use PyURLFetch only for legitimate purposes. It is prohibited for attacks or other illegal activities. If losses are caused by improper use, the author is not responsible.</p>
+            <p>3. PyURLFetch only performs HTTP requests to the URLs you give it. It does not host, provide, or distribute any third-party content. The author is not responsible for losses caused by the content you choose to download or the servers you connect to.</p>
+            <p>4. PyURLFetch is completely free and open source. Please do not trust any individuals or claims stating that it charges a fee. If you suffer losses as a result, the author is not responsible.</p>
+            <p>5. PyURLFetch does not sell any products and does not produce any physical products. Any products claiming to be related to PyURLFetch are counterfeit. The author is not responsible for any losses caused by this.</p>
+            <p>6. Using PyURLFetch does not require registration, activation codes, subscription, or membership. Any individuals or organizations claiming to provide these, especially those charging fees, are unofficial.</p>
+            <p>7. PyURLFetch's source code is fully open. Any individuals or organizations claiming to provide a "core" or private version, especially those charging fees, are unofficial.</p>
+            <p>8. The only official website is <strong>https://pyurlfetch.macwave.org</strong>. Any other websites are not official. The author is not responsible for any losses caused by this.</p>
+            <p>9. Official accounts are only registered on Twitter (X) and GitHub. Any accounts on other platforms are counterfeit. The author is not responsible for any losses caused by this.</p>
+            <p>10. The only official feedback email address is <strong>hi@macwave.org</strong>. Do not trust other email addresses claimed by others as official.</p>
+            <p>11. Redistribution and modified versions are permitted under the MIT License, but the original copyright notice and license text must be retained.</p>
+            <p>12. Downloading may consume network data. Users should be aware of this and handle it properly. The author is not responsible for any losses caused by this.</p>
+            <p>13. The author is not responsible for any losses caused by force majeure, nor for losses caused by the operating system, network fluctuations, or third-party services.</p>
+            <p>14. This agreement may be updated. If there is an update and you do not agree to the updated agreement, please stop using PyURLFetch.</p>
+            <br><br>
+            <p>1. PyURLFetch按"现状"提供，不附带任何形式的担保。用户应在使用前阅读文档，并自行承担后果</p>
+            <p>2. PyURLFetch仅供正当用途使用，禁止用于攻击或其他非法活动。如果用于不正当用途造成损失，作者不承担责任</p>
+            <p>3. PyURLFetch仅对你提供的URL发起HTTP请求，不托管、不提供、不分发任何第三方内容。对于你选择下载的内容或连接的服务器所造成的损失，作者不承担责任</p>
+            <p>4. PyURLFetch完全免费且开源，请勿相信任何宣称其收费的言论、人员等。因此蒙受损失的，作者不承担责任</p>
+            <p>5. PyURLFetch不出售任何产品，也不产出任何实体产品。任何声称与PyURLFetch相关的产品均属伪造。由此造成损失的，作者不承担责任</p>
+            <p>6. 使用PyURLFetch无需注册、无需激活码，也不使用订阅制或会员制。任何宣称可以提供上述内容的个人或组织，尤其是收取费用的，均为非官方</p>
+            <p>7. PyURLFetch的源代码全部公开。任何宣称可以提供"核心版"或私有版本的个人、组织等，尤其是收取费用的，均为非官方</p>
+            <p>8. 官方唯一网址为https://pyurlfetch.macwave.org，其他网址均不是官方网址。因此造成损失的，作者不承担责任</p>
+            <p>9. 官方账号仅在Twitter(X)、GitHub注册，其他平台如有则均为仿造。因此造成损失的，作者不承担责任</p>
+            <p>10. 唯一官方反馈邮箱地址为hi@macwave.org。请勿相信他人或组织声称的其他官方邮箱地址</p>
+            <p>11. 在MIT许可证允许范围内可以再分发及修改，但必须保留原始版权声明与许可证全文</p>
+            <p>12. 下载可能消耗网络流量，须悉知并妥善处理，否则造成损失的，作者不承担责任</p>
+            <p>13. 由于不可抗力、操作系统、网络波动或第三方服务导致损失的，作者不承担责任</p>
+            <p>14. 本协议可能会有更新。如有，且你不同意更新后的协议，请停止使用PyURLFetch</p>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(btn) {
+            const pre = btn.parentElement.querySelector('pre');
+            if (!pre) return;
+            let text = pre.textContent;
+            text = text.replace(/^\$\s/, '');
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+
 </body>
 </html>

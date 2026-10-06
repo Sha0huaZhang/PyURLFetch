@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Demo screenshot placeholder">
+  <rect width="1200" height="630" fill="#1e2a4a"/>
+  <rect x="8" y="8" width="1184" height="614" rx="10" fill="none" stroke="#3a4a6a" stroke-width="3" stroke-dasharray="14 10"/>
+  <text x="600" y="300" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="40" font-weight="600" fill="#a0b0d0" text-anchor="middle">Demo screenshot</text>
+  <text x="600" y="352" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="26" fill="#6d7f9e" text-anchor="middle">placeholder — 1200×630</text>
+</svg>

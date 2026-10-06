@@ -7,23 +7,21 @@ verification, and a `rich` progress bar.
 
 ## Install
 
-Not published on PyPI yet. Install name is `PyURLFetch`, import name is
-`pyurlfetch` — install straight from the repository:
-
 ```bash
-# core (requests + urllib3)
-pip install "git+https://github.com/Sha0huaZhang/PyURLFetch.git"
-
-# with the rich progress bar
-pip install "pyurlfetch[progress] @ git+https://github.com/Sha0huaZhang/PyURLFetch.git"
+pip install PyURLFetch              # core (requests + urllib3)
+pip install "PyURLFetch[progress]"  # adds the rich progress bar
 ```
 
-Or from a local clone:
+The import name is `pyurlfetch`:
+
+```python
+import pyurlfetch
+```
+
+To try the unreleased code instead, install from the repository:
 
 ```bash
-git clone https://github.com/Sha0huaZhang/PyURLFetch.git
-cd PyURLFetch
-pip install .
+pip install "git+https://github.com/Sha0huaZhang/PyURLFetch.git"
 ```
 
 ## Usage

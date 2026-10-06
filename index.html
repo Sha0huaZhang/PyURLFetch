@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="lang-en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,6 +37,43 @@
             width: auto;
             display: block;
             border-radius: 0;
+        }
+
+        /* ========== 语言切换 ========== */
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .lang-btn {
+            background-color: rgba(255,255,255,0.12);
+            color: #ffffff;
+            border: 1px solid #3a4a6a;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            background-color: rgba(255,255,255,0.22);
+            transform: translateY(-1px);
+        }
+
+        .lang-btn.active {
+            background-color: #ffffff;
+            color: #0a1b3f;
+            border-color: transparent;
+        }
+
+        /* 只显示当前语言的内容 */
+        .lang-zh [data-lang="en"],
+        .lang-en [data-lang="zh"] {
+            display: none !important;
         }
 
         /* ========== 版本号一行，有空格 ========== */
@@ -325,53 +362,68 @@
 </head>
 <body>
 
+    <div class="lang-switch">
+        <button class="lang-btn" type="button" data-lang-set="en" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn" type="button" data-lang-set="zh" onclick="setLanguage('zh')">简体中文</button>
+    </div>
+
     <div class="logo-wrapper">
         <img src="images/logo1.svg" alt="PyURLFetch Icon" class="logo-img logo-1">
         <img src="images/logo2.svg" alt="PyURLFetch Text" class="logo-img logo-2">
     </div>
 
-    <p class="tagline" style="max-width:800px;">A Python library for implementing convenient resumable download functionality.</p>
+    <p class="tagline" data-lang="en" style="max-width:800px; text-align: center;">A Python library for implementing convenient resumable download functionality.</p>
+    <p class="tagline" data-lang="zh" style="max-width:800px; text-align: center;">便于使用的断点续传下载库</p>
 
     <div class="version-block" style="color: #a0b0d0; font-size: 0.95rem; margin-top: -10px; margin-bottom: 30px;">
-        <span class="v-line">Latest Version : 0.1.0</span>
-        <span class="v-line">Release on 2026-10-06</span>
+        <span class="v-line" data-lang="en">Latest Version : 0.1.0</span>
+        <span class="v-line" data-lang="zh">最新版本：0.1.0</span>
+        <span class="v-line" data-lang="en">Release on 2026-10-06</span>
+        <span class="v-line" data-lang="zh">发布于 2026-10-06</span>
     </div>
 
-    <a href="https://github.com/Sha0huaZhang/PyURLFetch" class="btn-github">View On GitHub</a>
+    <a href="https://github.com/Sha0huaZhang/PyURLFetch" class="btn-github" data-lang="en">View On GitHub</a>
+    <a href="https://github.com/Sha0huaZhang/PyURLFetch" class="btn-github" data-lang="zh">在 GitHub 上查看</a>
 
     <div style="margin-top: 2em;"></div>
     <div style="text-align: center; font-size: 1.2rem; font-weight: bold;">
-        <a href="https://sw.macwave.org" style="color: #ffffff; text-decoration: none;">Explore MacWave Team</a>
+        <a href="https://sw.macwave.org" style="color: #ffffff; text-decoration: none;" data-lang="en">Explore MacWave Team</a>
+        <a href="https://sw.macwave.org" style="color: #ffffff; text-decoration: none;" data-lang="zh">浏览 MacWave 团队</a>
     </div>
     <div style="margin-top: 0.5em;"></div>
-    <div style="color: #a0b0d0; font-size: 0.95rem; text-align: center;">(Click to view)</div>
+    <div style="color: #a0b0d0; font-size: 0.95rem; text-align: center;">
+        <span data-lang="en">(Click to view)</span>
+        <span data-lang="zh">（点击查看）</span>
+    </div>
     <div style="margin-top: 1em;"></div>
 
     <div class="content-section" style="margin: 0 auto; padding: 20px; color: #ffffff; text-align: left;">
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;">What is PyURLFetch?</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="en">What is PyURLFetch?</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px;" data-lang="zh">PyURLFetch 是什么？</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             <strong>PyURLFetch</strong> is a <strong>Python library</strong> for <strong>resumable downloads</strong>. It was extracted from MacWave's package download flow, so it handles the parts that are easy to get wrong: partial files, HTTP Range requests, rate limiting, proxies, and retry policy.
         </p>
-
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Why PyURLFetch</h2>
-        <ul style="font-size: 1.1rem; line-height: 1.8; opacity: 0.9; padding-left: 1.2em;">
-            <li><strong>True resumable downloads.</strong> Interrupted? Call the same function again with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">resume=True</code> and it continues from the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">.partial</code> file using an HTTP Range request.</li>
-            <li><strong>Optional rate limiting.</strong> Cap the speed with <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">limit_rate="1M"</code>, which also accepts <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">200K</code>, <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">5M</code>, or a plain byte count.</li>
-            <li><strong>Proxy and SSL controls.</strong> Route through an <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">http://</code> or <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">socks5://</code> proxy, and opt out of certificate verification when you really need to.</li>
-            <li><strong>Progress bar, if you want one.</strong> A <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">rich</code>-based progress bar when <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">rich</code> is installed, or drive your own UI through the <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">on_progress</code> callback.</li>
-            <li><strong>Library-friendly by design.</strong> It never prints, never calls <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">sys.exit</code>, and never prompts for input. Progress, retries, and errors all go through callbacks and exceptions.</li>
-            <li><strong>Small and dependency-light.</strong> Pure Python, requires only <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">requests</code> and <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">urllib3</code>.</li>
-        </ul>
-
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Requirements</h2>
-        <p class="env-requirements">
-            Python 3.8 and above. The optional progress bar needs rich 12.0 or above.
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            <strong>PyURLFetch</strong> 是一个用于<strong>断点续传下载</strong>的 <strong>Python 库</strong>。它从 MacWave 的软件包下载流程中抽取而来，因此把那些容易出错的部分都处理好了：分片文件、HTTP Range 请求、限速、代理与重试策略。
         </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Install PyURLFetch</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Requirements</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">系统要求</h2>
+        <p class="env-requirements" data-lang="en">
+            Python 3.8 and above. The optional progress bar needs rich 12.0 or above.
+        </p>
+        <p class="env-requirements" data-lang="zh">
+            Python 3.8 及以上。可选的进度条需要 rich 12.0 及以上。
+        </p>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Install PyURLFetch</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">安装 PyURLFetch</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             In the terminal, run:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            在终端中运行：
         </p>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
@@ -382,8 +434,11 @@
             </button>
             <pre><span class="code-dollar">$</span> pip3 install PyURLFetch</pre>
         </div>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             To install with the progress bar, run:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            如需安装进度条，运行：
         </p>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
@@ -394,11 +449,15 @@
             </button>
             <pre><span class="code-dollar">$</span> pip3 install "PyURLFetch[progress]"</pre>
         </div>
-        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;">
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="en">
             The distribution name is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PyURLFetch</code>, but the module you import is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">pyurlfetch</code>.
         </p>
+        <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="zh">
+            发行名是 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PyURLFetch</code>，而导入的模块名是 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">pyurlfetch</code>。
+        </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Quick Start</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Quick Start</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">快速开始</h2>
         <div class="code-container has-copy-btn">
             <button class="copy-btn" onclick="copyCode(this)">
                 <div class="copy-icon">
@@ -417,13 +476,20 @@ path = download_file(
 
 print(path)</pre>
         </div>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             The download is written to <strong>archive.tar.gz.partial</strong> and renamed to the target once complete, so an interrupted download can be resumed by calling the same function again with <strong>resume=True</strong>.
         </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            下载内容先写入 <strong>archive.tar.gz.partial</strong>，完成后再改名为目标文件；因此中断的下载只需再次以 <strong>resume=True</strong> 调用同一个函数即可续传。
+        </p>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Handling Errors</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Handling Errors</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">错误处理</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             Failures raise an exception instead of exiting the process:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            失败会抛出异常，而不是结束进程：
         </p>
         <div class="code-container">
             <pre>from pyurlfetch import download_file, HTTPStatusError, NetworkError, UserAborted
@@ -436,9 +502,13 @@ except (NetworkError, UserAborted) as error:
     print("download failed:", error)</pre>
         </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Retrying</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Retrying</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">重试</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             Downloads never prompt interactively. Control retries either with <strong>max_retries</strong> or with an <strong>on_retry(attempt, error)</strong> callback that returns a boolean:
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            下载过程不会索要输入。重试由 <strong>max_retries</strong> 或返回布尔值的 <strong>on_retry(attempt, error)</strong> 回调控制：
         </p>
         <div class="code-container">
             <pre>download_file(url, dest, max_retries=3)
@@ -446,8 +516,9 @@ except (NetworkError, UserAborted) as error:
 download_file(url, dest, on_retry=lambda attempt, error: input("retry? [y/N] ") == "y")</pre>
         </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">API Reference</h2>
-        <div class="code-container">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">API Reference</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">API 参考</h2>
+        <div class="code-container" data-lang="en">
             <pre>download_file(
     url,
     dest,
@@ -465,10 +536,31 @@ download_file(url, dest, on_retry=lambda attempt, error: input("retry? [y/N] ") 
     on_progress=None,    # callback(downloaded, total)
 )</pre>
         </div>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <div class="code-container" data-lang="zh">
+            <pre>download_file(
+    url,
+    dest,
+    *,
+    resume=False,        # 通过 HTTP Range 请求从 dest.partial 续传
+    limit_rate=None,     # 字节/秒，或 "200K" / "1M" / "5M"
+    proxy=None,          # http://... 或 socks5://...
+    verify=True,         # 设为 False 可跳过 SSL 证书校验
+    timeout=30.0,        # 多少秒无响应即超时
+    chunk_size=8192,
+    max_retries=None,    # 额外重试次数；None 表示不重试
+    on_retry=None,       # 回调 (attempt, error) -&gt; bool
+    progress=None,       # None = 自动（装了 rich 就显示），False = 关闭
+    display_name=None,   # 进度条上显示的名称
+    on_progress=None,    # 回调 (downloaded, total)
+)</pre>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             Returns the final <strong>pathlib.Path</strong>. Rate limiting is also available on its own:
         </p>
-        <div class="code-container">
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            返回最终的 <strong>pathlib.Path</strong>。限速也可以单独使用：
+        </p>
+        <div class="code-container" data-lang="en">
             <pre>from pyurlfetch import parse_rate_limit, TokenBucket
 
 parse_rate_limit("1M")   # 1048576.0
@@ -477,32 +569,55 @@ parse_rate_limit("junk") # None
 bucket = TokenBucket(1024 * 1024)  # 1 MiB/s
 bucket.consume(8192)               # blocks until 8192 bytes are allowed</pre>
         </div>
+        <div class="code-container" data-lang="zh">
+            <pre>from pyurlfetch import parse_rate_limit, TokenBucket
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Exceptions</h2>
-        <div class="code-container">
+parse_rate_limit("1M")   # 1048576.0
+parse_rate_limit("junk") # None
+
+bucket = TokenBucket(1024 * 1024)  # 1 MiB/s
+bucket.consume(8192)               # 阻塞至允许写入 8192 字节</pre>
+        </div>
+
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Exceptions</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">异常</h2>
+        <div class="code-container" data-lang="en">
             <pre>PyURLFetchError
 └── DownloadError
     ├── HTTPStatusError   # non-200/206 response; .status_code, .url
     ├── NetworkError      # connection failed or timed out
     └── UserAborted       # on_retry returned False</pre>
         </div>
+        <div class="code-container" data-lang="zh">
+            <pre>PyURLFetchError
+└── DownloadError
+    ├── HTTPStatusError   # 响应码非 200/206；含 .status_code、.url
+    ├── NetworkError      # 连接失败或超时
+    └── UserAborted       # on_retry 返回 False</pre>
+        </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">Demo Pictures</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Demo Pictures</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">演示图片</h2>
         <div class="demo-pictures">
             <p>
                 <img src="images/demo1.svg" alt="demo1">
             </p>
         </div>
 
-        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;">License</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;">
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">License</h2>
+        <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">许可证</h2>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
             This project is licensed under the <strong>MIT License</strong>.
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
+            本项目使用 <strong>MIT 许可证</strong>。
         </p>
 
     </div>
 
     <div class="contact-section">
-        <h2>Contact Us</h2>
+        <h2 data-lang="en">Contact Us</h2>
+        <h2 data-lang="zh">联系我们</h2>
         <div class="contact-divider"></div>
         <div class="contact-items">
             <div class="contact-item">
@@ -514,44 +629,45 @@ bucket.consume(8192)               # blocks until 8192 bytes are allowed</pre>
                 <a href="https://twitter.com/MacWaveOrg" target="_blank">@MacWaveOrg</a>
             </div>
             <div class="contact-item">
-                <span class="contact-label">Email</span>
+                <span class="contact-label" data-lang="en">Email</span>
+                <span class="contact-label" data-lang="zh">邮箱</span>
                 <a href="mailto:hi@macwave.org">hi@macwave.org</a>
             </div>
         </div>
-        <div class="contact-hint">Click the links to open.</div>
+        <div class="contact-hint" data-lang="en">Click the links to open.</div>
+        <div class="contact-hint" data-lang="zh">点击链接即可打开。</div>
     </div>
 
     <div class="disclaimer-container">
         <div class="disclaimer">
-            <p>1. PyURLFetch is provided "as is", without warranty of any kind. Users should read the documentation before use and bear the consequences themselves.</p>
-            <p>2. Use PyURLFetch only for legitimate purposes. It is prohibited for attacks or other illegal activities. If losses are caused by improper use, the author is not responsible.</p>
-            <p>3. PyURLFetch only performs HTTP requests to the URLs you give it. It does not host, provide, or distribute any third-party content. The author is not responsible for losses caused by the content you choose to download or the servers you connect to.</p>
-            <p>4. PyURLFetch is completely free and open source. Please do not trust any individuals or claims stating that it charges a fee. If you suffer losses as a result, the author is not responsible.</p>
-            <p>5. PyURLFetch does not sell any products and does not produce any physical products. Any products claiming to be related to PyURLFetch are counterfeit. The author is not responsible for any losses caused by this.</p>
-            <p>6. Using PyURLFetch does not require registration, activation codes, subscription, or membership. Any individuals or organizations claiming to provide these, especially those charging fees, are unofficial.</p>
-            <p>7. PyURLFetch's source code is fully open. Any individuals or organizations claiming to provide a "core" or private version, especially those charging fees, are unofficial.</p>
-            <p>8. The only official website is <strong>https://pyurlfetch.macwave.org</strong>. Any other websites are not official. The author is not responsible for any losses caused by this.</p>
-            <p>9. Official accounts are only registered on Twitter (X) and GitHub. Any accounts on other platforms are counterfeit. The author is not responsible for any losses caused by this.</p>
-            <p>10. The only official feedback email address is <strong>hi@macwave.org</strong>. Do not trust other email addresses claimed by others as official.</p>
-            <p>11. Redistribution and modified versions are permitted under the MIT License, but the original copyright notice and license text must be retained.</p>
-            <p>12. Downloading may consume network data. Users should be aware of this and handle it properly. The author is not responsible for any losses caused by this.</p>
-            <p>13. The author is not responsible for any losses caused by force majeure, nor for losses caused by the operating system, network fluctuations, or third-party services.</p>
-            <p>14. This agreement may be updated. If there is an update and you do not agree to the updated agreement, please stop using PyURLFetch.</p>
-            <br><br>
-            <p>1. PyURLFetch按"现状"提供，不附带任何形式的担保。用户应在使用前阅读文档，并自行承担后果</p>
-            <p>2. PyURLFetch仅供正当用途使用，禁止用于攻击或其他非法活动。如果用于不正当用途造成损失，作者不承担责任</p>
-            <p>3. PyURLFetch仅对你提供的URL发起HTTP请求，不托管、不提供、不分发任何第三方内容。对于你选择下载的内容或连接的服务器所造成的损失，作者不承担责任</p>
-            <p>4. PyURLFetch完全免费且开源，请勿相信任何宣称其收费的言论、人员等。因此蒙受损失的，作者不承担责任</p>
-            <p>5. PyURLFetch不出售任何产品，也不产出任何实体产品。任何声称与PyURLFetch相关的产品均属伪造。由此造成损失的，作者不承担责任</p>
-            <p>6. 使用PyURLFetch无需注册、无需激活码，也不使用订阅制或会员制。任何宣称可以提供上述内容的个人或组织，尤其是收取费用的，均为非官方</p>
-            <p>7. PyURLFetch的源代码全部公开。任何宣称可以提供"核心版"或私有版本的个人、组织等，尤其是收取费用的，均为非官方</p>
-            <p>8. 官方唯一网址为https://pyurlfetch.macwave.org，其他网址均不是官方网址。因此造成损失的，作者不承担责任</p>
-            <p>9. 官方账号仅在Twitter(X)、GitHub注册，其他平台如有则均为仿造。因此造成损失的，作者不承担责任</p>
-            <p>10. 唯一官方反馈邮箱地址为hi@macwave.org。请勿相信他人或组织声称的其他官方邮箱地址</p>
-            <p>11. 在MIT许可证允许范围内可以再分发及修改，但必须保留原始版权声明与许可证全文</p>
-            <p>12. 下载可能消耗网络流量，须悉知并妥善处理，否则造成损失的，作者不承担责任</p>
-            <p>13. 由于不可抗力、操作系统、网络波动或第三方服务导致损失的，作者不承担责任</p>
-            <p>14. 本协议可能会有更新。如有，且你不同意更新后的协议，请停止使用PyURLFetch</p>
+            <p data-lang="en">1. PyURLFetch is provided "as is", without warranty of any kind. Users should read the documentation before use and bear the consequences themselves.</p>
+            <p data-lang="en">2. Use PyURLFetch only for legitimate purposes. It is prohibited for attacks or other illegal activities. If losses are caused by improper use, the author is not responsible.</p>
+            <p data-lang="en">3. PyURLFetch only performs HTTP requests to the URLs you give it. It does not host, provide, or distribute any third-party content. The author is not responsible for losses caused by the content you choose to download or the servers you connect to.</p>
+            <p data-lang="en">4. PyURLFetch is completely free and open source. Please do not trust any individuals or claims stating that it charges a fee. If you suffer losses as a result, the author is not responsible.</p>
+            <p data-lang="en">5. PyURLFetch does not sell any products and does not produce any physical products. Any products claiming to be related to PyURLFetch are counterfeit. The author is not responsible for any losses caused by this.</p>
+            <p data-lang="en">6. Using PyURLFetch does not require registration, activation codes, subscription, or membership. Any individuals or organizations claiming to provide these, especially those charging fees, are unofficial.</p>
+            <p data-lang="en">7. PyURLFetch's source code is fully open. Any individuals or organizations claiming to provide a "core" or private version, especially those charging fees, are unofficial.</p>
+            <p data-lang="en">8. The only official website is <strong>https://pyurlfetch.macwave.org</strong>. Any other websites are not official. The author is not responsible for any losses caused by this.</p>
+            <p data-lang="en">9. Official accounts are only registered on Twitter (X) and GitHub. Any accounts on other platforms are counterfeit. The author is not responsible for any losses caused by this.</p>
+            <p data-lang="en">10. The only official feedback email address is <strong>hi@macwave.org</strong>. Do not trust other email addresses claimed by others as official.</p>
+            <p data-lang="en">11. Redistribution and modified versions are permitted under the MIT License, but the original copyright notice and license text must be retained.</p>
+            <p data-lang="en">12. Downloading may consume network data. Users should be aware of this and handle it properly. The author is not responsible for any losses caused by this.</p>
+            <p data-lang="en">13. The author is not responsible for any losses caused by force majeure, nor for losses caused by the operating system, network fluctuations, or third-party services.</p>
+            <p data-lang="en">14. This agreement may be updated. If there is an update and you do not agree to the updated agreement, please stop using PyURLFetch.</p>
+            <p data-lang="zh">1. PyURLFetch按"现状"提供，不附带任何形式的担保。用户应在使用前阅读文档，并自行承担后果</p>
+            <p data-lang="zh">2. PyURLFetch仅供正当用途使用，禁止用于攻击或其他非法活动。如果用于不正当用途造成损失，作者不承担责任</p>
+            <p data-lang="zh">3. PyURLFetch仅对你提供的URL发起HTTP请求，不托管、不提供、不分发任何第三方内容。对于你选择下载的内容或连接的服务器所造成的损失，作者不承担责任</p>
+            <p data-lang="zh">4. PyURLFetch完全免费且开源，请勿相信任何宣称其收费的言论、人员等。因此蒙受损失的，作者不承担责任</p>
+            <p data-lang="zh">5. PyURLFetch不出售任何产品，也不产出任何实体产品。任何声称与PyURLFetch相关的产品均属伪造。由此造成损失的，作者不承担责任</p>
+            <p data-lang="zh">6. 使用PyURLFetch无需注册、无需激活码，也不使用订阅制或会员制。任何宣称可以提供上述内容的个人或组织，尤其是收取费用的，均为非官方</p>
+            <p data-lang="zh">7. PyURLFetch的源代码全部公开。任何宣称可以提供"核心版"或私有版本的个人、组织等，尤其是收取费用的，均为非官方</p>
+            <p data-lang="zh">8. 官方唯一网址为https://pyurlfetch.macwave.org，其他网址均不是官方网址。因此造成损失的，作者不承担责任</p>
+            <p data-lang="zh">9. 官方账号仅在Twitter(X)、GitHub注册，其他平台如有则均为仿造。因此造成损失的，作者不承担责任</p>
+            <p data-lang="zh">10. 唯一官方反馈邮箱地址为hi@macwave.org。请勿相信他人或组织声称的其他官方邮箱地址</p>
+            <p data-lang="zh">11. 在MIT许可证允许范围内可以再分发及修改，但必须保留原始版权声明与许可证全文</p>
+            <p data-lang="zh">12. 下载可能消耗网络流量，须悉知并妥善处理，否则造成损失的，作者不承担责任</p>
+            <p data-lang="zh">13. 由于不可抗力、操作系统、网络波动或第三方服务导致损失的，作者不承担责任</p>
+            <p data-lang="zh">14. 本协议可能会有更新。如有，且你不同意更新后的协议，请停止使用PyURLFetch</p>
         </div>
     </div>
 
@@ -570,6 +686,27 @@ bucket.consume(8192)               # blocks until 8192 bytes are allowed</pre>
                 console.error('Failed to copy text: ', err);
             });
         }
+
+        function setLanguage(lang) {
+            const root = document.documentElement;
+            root.classList.remove('lang-en', 'lang-zh');
+            root.classList.add('lang-' + lang);
+            root.lang = (lang === 'zh') ? 'zh-Hans' : 'en';
+            document.querySelectorAll('.lang-btn').forEach(function (btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang-set') === lang);
+            });
+            try { localStorage.setItem('pyurlfetch-lang', lang); } catch (e) {}
+        }
+
+        (function () {
+            let saved = null;
+            try { saved = localStorage.getItem('pyurlfetch-lang'); } catch (e) {}
+            if (saved !== 'en' && saved !== 'zh') {
+                const nav = (navigator.language || 'en').toLowerCase();
+                saved = nav.indexOf('zh') === 0 ? 'zh' : 'en';
+            }
+            setLanguage(saved);
+        })();
     </script>
 
 </body>

@@ -8,8 +8,8 @@ verification, and a `rich` progress bar.
 ## Install
 
 ```bash
-pip install PyURLFetch              # core (requests + urllib3)
-pip install "PyURLFetch[progress]"  # adds the rich progress bar
+pip3 install PyURLFetch              # core (requests + urllib3)
+pip3 install "PyURLFetch[progress]"  # adds the rich progress bar
 ```
 
 The import name is `pyurlfetch`:
@@ -21,7 +21,7 @@ import pyurlfetch
 To try the unreleased code instead, install from the repository:
 
 ```bash
-pip install "git+https://github.com/Sha0huaZhang/PyURLFetch.git"
+pip3 install "git+https://github.com/Sha0huaZhang/PyURLFetch.git"
 ```
 
 ## Usage

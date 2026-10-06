@@ -6,6 +6,8 @@ HTTP Range 请求，以及可选的限速、代理、跳过 SSL 校验和 `rich`
 
 [English](./README.md) · **简体中文**
 
+## 网页
+pyurlfetch.macwave.org  
 ## 安装
 
 ```bash

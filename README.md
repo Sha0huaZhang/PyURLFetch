@@ -1,5 +1,5 @@
 # PyURLFetch
-A Python library for implementing convenient resumable download functionality.
+An easy-to-use Python download library.
 
 Extracted from MacWave's package download flow. It handles `.partial` files and
 HTTP Range requests for resuming, optional rate limiting, proxies, skipping SSL

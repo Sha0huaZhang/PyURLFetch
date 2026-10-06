@@ -1,5 +1,5 @@
 # PyURLFetch
-用于实现便捷断点续传下载功能的 Python 库。
+便于使用的 Python 下载库。
 
 该库抽取自 MacWave 的软件包下载流程，负责处理 `.partial` 分片文件与用于续传的
 HTTP Range 请求，以及可选的限速、代理、跳过 SSL 校验和 `rich` 进度条。

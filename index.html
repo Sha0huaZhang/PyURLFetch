@@ -39,6 +39,25 @@
             border-radius: 0;
         }
 
+        .logo-img.logo-3 {
+            display: none !important;
+        }
+
+        /* ========== 手机端 ========== */
+        @media (max-width: 690.98px) {
+            .logo-img.logo-1,
+            .logo-img.logo-2 {
+                display: none !important;
+            }
+            .logo-img.logo-3 {
+                display: block !important;
+                height: 42px;
+            }
+            .logo-wrapper {
+                padding: 4px 18px !important;
+            }
+        }
+
         /* ========== 语言切换 ========== */
         .lang-switch {
             display: flex;
@@ -342,8 +361,9 @@
     </div>
 
     <div class="logo-wrapper">
-        <img src="images/logo1.svg" alt="PyURLFetch Icon" class="logo-img logo-1">
-        <img src="images/logo2.svg" alt="PyURLFetch Text" class="logo-img logo-2">
+        <img src="images/logo1.jpg" alt="PyURLFetch Icon" class="logo-img logo-1">
+        <img src="images/logo2.jpg" alt="PyURLFetch Text" class="logo-img logo-2">
+        <img src="images/logo3.jpg" alt="PyURLFetch Logo" class="logo-img logo-3">
     </div>
 
     <p class="tagline" data-lang="en" style="max-width:800px; text-align: center;">An easy-to-use Python download library.</p>

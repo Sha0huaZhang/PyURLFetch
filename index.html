@@ -147,6 +147,13 @@
             font-weight: bold;
         }
 
+        /* 行内代码（正文中提到的标识符） */
+        code.code-inline {
+            background-color: #0f1a30;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
         .copy-btn {
             position: absolute;
             top: 12px;
@@ -417,10 +424,10 @@
             <pre><span class="code-dollar">$</span> pip3 install "PyURLFetch[progress]"</pre>
         </div>
         <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="en">
-            The distribution name is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PyURLFetch</code>, but the module you import is <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">pyurlfetch</code>.
+            The distribution name is <code class="code-inline">PyURLFetch</code>, but the module you import is <code class="code-inline">pyurlfetch</code>.
         </p>
         <p style="margin: 10px 0 0 0; font-size: 1rem; line-height: 1.5; color: #a0b0d0; font-style: italic;" data-lang="zh">
-            发行名是 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">PyURLFetch</code>，而导入的模块名是 <code style="background-color: #0f1a30; padding: 2px 6px; border-radius: 4px;">pyurlfetch</code>。
+            发行名是 <code class="code-inline">PyURLFetch</code>，而导入的模块名是 <code class="code-inline">pyurlfetch</code>。
         </p>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Quick Start</h2>
@@ -444,10 +451,10 @@ path = download_file(
 print(path)</pre>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            The download is written to <strong>archive.tar.gz.partial</strong> and renamed to the target once complete, so an interrupted download can be resumed by calling the same function again with <strong>resume=True</strong>.
+            The download is written to <code class="code-inline">archive.tar.gz.partial</code> and renamed to the target once complete, so an interrupted download can be resumed by calling the same function again with <code class="code-inline">resume=True</code>.
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            下载内容先写入 <strong>archive.tar.gz.partial</strong>，完成后再改名为目标文件；因此中断的下载只需再次以 <strong>resume=True</strong> 调用同一个函数即可续传。
+            下载内容先写入 <code class="code-inline">archive.tar.gz.partial</code>，完成后再改名为目标文件；因此中断的下载只需再次以 <code class="code-inline">resume=True</code> 调用同一个函数即可续传。
         </p>
 
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Handling Errors</h2>
@@ -472,10 +479,10 @@ except (NetworkError, UserAborted) as error:
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="en">Retrying</h2>
         <h2 style="font-size: 1.8rem; border-bottom: 2px solid #4a90e2; padding-bottom: 10px; margin-top: 40px;" data-lang="zh">重试</h2>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            Downloads never prompt interactively. Control retries either with <strong>max_retries</strong> or with an <strong>on_retry(attempt, error)</strong> callback that returns a boolean:
+            Downloads never prompt interactively. Control retries either with <code class="code-inline">max_retries</code> or with an <code class="code-inline">on_retry(attempt, error)</code> callback that returns a boolean:
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            下载过程不会索要输入。重试由 <strong>max_retries</strong> 或返回布尔值的 <strong>on_retry(attempt, error)</strong> 回调控制：
+            下载过程不会索要输入。重试由 <code class="code-inline">max_retries</code> 或返回布尔值的 <code class="code-inline">on_retry(attempt, error)</code> 回调控制：
         </p>
         <div class="code-container">
             <pre>download_file(url, dest, max_retries=3)
@@ -522,10 +529,10 @@ download_file(url, dest, on_retry=lambda attempt, error: input("retry? [y/N] ") 
 )</pre>
         </div>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="en">
-            Returns the final <strong>pathlib.Path</strong>. Rate limiting is also available on its own:
+            Returns the final <code class="code-inline">pathlib.Path</code>. Rate limiting is also available on its own:
         </p>
         <p style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9;" data-lang="zh">
-            返回最终的 <strong>pathlib.Path</strong>。限速也可以单独使用：
+            返回最终的 <code class="code-inline">pathlib.Path</code>。限速也可以单独使用：
         </p>
         <div class="code-container" data-lang="en">
             <pre>from pyurlfetch import parse_rate_limit, TokenBucket
